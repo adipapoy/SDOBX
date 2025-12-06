@@ -1,2 +1,0 @@
-# SDOBX
-Kalkulator SDoB
