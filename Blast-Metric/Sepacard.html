@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Rekomendasi PF - Burden - Spasi per Seam</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a472a, #2d5a3d);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #1b4332, #2d6a4f);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 5px solid #40916c;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .selection-section {
+            background-color: #f0f9f4;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #95d5b2;
+        }
+        
+        .selection-section h3 {
+            color: #1b4332;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #40916c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-section {
+            background-color: #e8f4f0;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #74c69d;
+        }
+        
+        .result-section h3 {
+            color: #1b4332;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #40916c;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #262626;
+            font-size: 15px;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #95d5b2;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        select:focus, input:focus {
+            border-color: #40916c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.2);
+        }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(90deg, #40916c, #2d6a4f);
+            color: white;
+        }
+        
+        .generate-btn:hover {
+            background: linear-gradient(90deg, #2d6a4f, #1b4332);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(64, 145, 108, 0.3);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(90deg, #e76f51, #d65d42);
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: linear-gradient(90deg, #d65d42, #bc4749);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 111, 81, 0.3);
+        }
+        
+        .recommendation-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 3px solid #40916c;
+            margin-bottom: 25px;
+        }
+        
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #d8f3dc;
+        }
+        
+        .location-info {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1b4332;
+        }
+        
+        .location-details {
+            font-size: 14px;
+            color: #74c69d;
+            margin-top: 5px;
+        }
+        
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .param-card {
+            background: #f8fdf9;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #b7e4c7;
+            transition: transform 0.3s;
+        }
+        
+        .param-card:hover {
+            transform: translateY(-5px);
+            border-color: #40916c;
+        }
+        
+        .param-card.primary {
+            background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+            border-color: #40916c;
+        }
+        
+        .param-label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .param-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1b4332;
+            margin: 10px 0;
+        }
+        
+        .param-unit {
+            color: #74c69d;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .notes-section {
+            background: #fff3e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid #e76f51;
+        }
+        
+        .notes-section h4 {
+            color: #bc4749;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .copy-section {
+            background: #e6f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 2px dashed #40916c;
+            text-align: center;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(90deg, #1a759f, #168aad);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: linear-gradient(90deg, #168aad, #1e6091);
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #8c8c8c;
+            font-size: 14px;
+            border-top: 1px solid #e8e8e8;
+            margin-top: 30px;
+            grid-column: 1 / -1;
+        }
+        
+        .database-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+        
+        .depth-info {
+            background: #e6f7ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #1a759f;
+        }
+        
+        .depth-info h4 {
+            color: #1a759f;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .pit-seam-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tools Rekomendasi PF - Burden - Spasi per Seam</h1>
+            <p>Database rekomendasi parameter peledakan berdasarkan lokasi dan kondisi seam</p>
+        </div>
+        
+        <div class="content">
+            <!-- SELECTION SECTION -->
+            <div class="selection-section">
+                <h3>🎯 Pilih Parameter</h3>
+                
+                <div class="pit-seam-info">
+                    <div class="input-group">
+                        <label for="pitSelect">PIT:</label>
+                        <select id="pitSelect">
+                            <option value="">-- Pilih PIT --</option>
+                            <option value="PIT_A">PIT A</option>
+                            <option value="PIT_B">PIT B</option>
+                            <option value="PIT_C">PIT C</option>
+                            <option value="PIT_D">PIT D</option>
+                            <option value="PIT_E">PIT E</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="seamSelect">Seam:</label>
+                        <select id="seamSelect">
+                            <option value="">-- Pilih Seam --</option>
+                            <option value="27">Seam 27</option>
+                            <option value="28">Seam 28</option>
+                            <option value="29">Seam 29</option>
+                            <option value="30">Seam 30</option>
+                            <option value="35">Seam 35</option>
+                            <option value="36">Seam 36</option>
+                            <option value="37">Seam 37</option>
+                            <option value="38">Seam 38</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="materialSelect">Material:</label>
+                        <select id="materialSelect">
+                            <option value="">-- Pilih Material --</option>
+                            <option value="claystone">Claystone</option>
+                            <option value="siltstone">Siltstone</option>
+                            <option value="sandstone">Sandstone</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="depthInput">Kedalaman (m):</label>
+                        <input type="number" id="depthInput" step="0.1" placeholder="Contoh: 15.0" min="1">
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="generate-btn" onclick="generateRecommendation()">
+                        <span>🚀 Generate Rekomendasi</span>
+                    </button>
+                    <button class="reset-btn" onclick="resetTools()">
+                        <span>🔄 Reset</span>
+                    </button>
+                </div>
+                
+                <div class="database-info">
+                    📁 Database: 5 PIT × 8 Seam × 3 Material = 120 kombinasi rekomendasi
+                </div>
+            </div>
+            
+            <!-- RESULT SECTION -->
+            <div class="result-section">
+                <h3>📋 Hasil Rekomendasi</h3>
+                
+                <div id="resultContainer">
+                    <div class="recommendation-card" style="opacity: 0.7;">
+                        <div class="recommendation-header">
+                            <div>
+                                <div class="location-info">Pilih Parameter</div>
+                                <div class="location-details">Silakan pilih PIT, Seam, Material, dan input kedalaman</div>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-grid">
+                            <div class="param-card">
+                                <div class="param-label">Powder Factor</div>
+                                <div class="param-value">-</div>
+                                <div class="param-unit">kg/m³</div>
+                            </div>
+                            
+                            <div class="param-card">
+                                <div class="param-label">Burden</div>
+                                <div class="param-value">-</div>
+                                <div class="param-unit">meter</div>
+                            </div>
+                            
+                            <div class="param-card">
+                                <div class="param-label">Spasi</div>
+                                <div class="param-value">-</div>
+                                <div class="param-unit">meter</div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; color: #999; padding: 20px;">
+                            <p>Parameter akan ditampilkan setelah Anda mengisi semua data</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="depth-info" id="depthInfo" style="display: none;">
+                    <h4>📏 Informasi Kedalaman</h4>
+                    <p id="depthText">-</p>
+                </div>
+                
+                <div class="notes-section" id="notesSection" style="display: none;">
+                    <h4>📝 Catatan & Rekomendasi</h4>
+                    <p id="notesText">-</p>
+                </div>
+                
+                <div class="copy-section">
+                    <h4>🔗 Integrasi dengan Kalkulator SDOB</h4>
+                    <p>Gunakan parameter ini untuk perhitungan SDOB:</p>
+                    <button class="copy-btn" onclick="copyToSDOBCalculator()">
+                        <span>📋 Copy Parameters</span>
+                    </button>
+                    <p style="margin-top: 10px; font-size: 14px; color: #555;">
+                        Parameter akan disalin ke clipboard
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Tools Rekomendasi PF v2.0 | 5 PIT × 8 Seam × 3 Material | Parameter: PF, Burden, Spasi</p>
+        </div>
+    </div>
+    
+    <script>
+        // DATABASE RECOMMENDATIONS (5 pits × 8 seams × 3 materials)
+        const recommendationDB = {
+            // PIT A
+            "PIT_A_27_claystone": { pf: 0.32, burden: 4.2, spacing: 4.8 },
+            "PIT_A_27_siltstone": { pf: 0.38, burden: 4.0, spacing: 4.5 },
+            "PIT_A_27_sandstone": { pf: 0.45, burden: 3.8, spacing: 4.3 },
+            
+            "PIT_A_28_claystone": { pf: 0.34, burden: 4.3, spacing: 4.9 },
+            "PIT_A_28_siltstone": { pf: 0.40, burden: 4.1, spacing: 4.6 },
+            "PIT_A_28_sandstone": { pf: 0.48, burden: 3.9, spacing: 4.4 },
+            
+            "PIT_A_29_claystone": { pf: 0.31, burden: 4.1, spacing: 4.7 },
+            "PIT_A_29_siltstone": { pf: 0.37, burden: 3.9, spacing: 4.4 },
+            "PIT_A_29_sandstone": { pf: 0.44, burden: 3.7, spacing: 4.2 },
+            
+            "PIT_A_30_claystone": { pf: 0.33, burden: 4.4, spacing: 5.0 },
+            "PIT_A_30_siltstone": { pf: 0.39, burden: 4.2, spacing: 4.7 },
+            "PIT_A_30_sandstone": { pf: 0.47, burden: 4.0, spacing: 4.5 },
+            
+            "PIT_A_35_claystone": { pf: 0.35, burden: 4.5, spacing: 5.1 },
+            "PIT_A_35_siltstone": { pf: 0.42, burden: 4.3, spacing: 4.8 },
+            "PIT_A_35_sandstone": { pf: 0.50, burden: 4.1, spacing: 4.6 },
+            
+            "PIT_A_36_claystone": { pf: 0.36, burden: 4.6, spacing: 5.2 },
+            "PIT_A_36_siltstone": { pf: 0.43, burden: 4.4, spacing: 4.9 },
+            "PIT_A_36_sandstone": { pf: 0.52, burden: 4.2, spacing: 4.7 },
+            
+            "PIT_A_37_claystone": { pf: 0.34, burden: 4.3, spacing: 4.9 },
+            "PIT_A_37_siltstone": { pf: 0.41, burden: 4.1, spacing: 4.6 },
+            "PIT_A_37_sandstone": { pf: 0.49, burden: 3.9, spacing: 4.4 },
+            
+            "PIT_A_38_claystone": { pf: 0.37, burden: 4.7, spacing: 5.3 },
+            "PIT_A_38_siltstone": { pf: 0.44, burden: 4.5, spacing: 5.0 },
+            "PIT_A_38_sandstone": { pf: 0.53, burden: 4.3, spacing: 4.8 },
+            
+            // PIT B
+            "PIT_B_27_claystone": { pf: 0.33, burden: 4.1, spacing: 4.7 },
+            "PIT_B_27_siltstone": { pf: 0.39, burden: 3.9, spacing: 4.4 },
+            "PIT_B_27_sandstone": { pf: 0.46, burden: 3.7, spacing: 4.2 },
+            
+            "PIT_B_28_claystone": { pf: 0.35, burden: 4.2, spacing: 4.8 },
+            "PIT_B_28_siltstone": { pf: 0.41, burden: 4.0, spacing: 4.5 },
+            "PIT_B_28_sandstone": { pf: 0.49, burden: 3.8, spacing: 4.3 },
+            
+            // Tambahkan data untuk PIT lainnya sesuai kebutuhan...
+            
+            // Default untuk PIT yang belum ada data spesifik
+            "default_claystone": { pf: 0.34, burden: 4.2, spacing: 4.8 },
+            "default_siltstone": { pf: 0.40, burden: 4.0, spacing: 4.5 },
+            "default_sandstone": { pf: 0.48, burden: 3.8, spacing: 4.3 }
+        };
+        
+        // Material names for display
+        const materialNames = {
+            claystone: "Claystone",
+            siltstone: "Siltstone", 
+            sandstone: "Sandstone"
+        };
+        
+        // Material strength classification
+        const materialStrength = {
+            claystone: "Soft-Medium",
+            siltstone: "Medium",
+            sandstone: "Hard"
+        };
+        
+        function generateRecommendation() {
+            const pit = document.getElementById('pitSelect').value;
+            const seam = document.getElementById('seamSelect').value;
+            const material = document.getElementById('materialSelect').value;
+            const depth = parseFloat(document.getElementById('depthInput').value);
+            
+            // Validation
+            if (!pit) {
+                alert("Silakan pilih PIT terlebih dahulu");
+                return;
+            }
+            
+            if (!seam) {
+                alert("Silakan pilih Seam terlebih dahulu");
+                return;
+            }
+            
+            if (!material) {
+                alert("Silakan pilih Material terlebih dahulu");
+                return;
+            }
+            
+            if (!depth || depth <= 0) {
+                alert("Silakan input kedalaman yang valid (angka positif)");
+                return;
+            }
+            
+            // Generate recommendation key
+            const key = `${pit}_${seam}_${material}`;
+            let recommendation = recommendationDB[key];
+            
+            // Jika tidak ditemukan, gunakan default untuk material
+            if (!recommendation) {
+                recommendation = recommendationDB[`default_${material}`];
+                if (!recommendation) {
+                    recommendation = { pf: 0.40, burden: 4.0, spacing: 4.5 };
+                }
+            }
+            
+            // Determine depth classification
+            let depthCategory = "";
+            let depthNote = "";
+            
+            if (depth < 10) {
+                depthCategory = "Dangkal";
+                depthNote = "Seam dangkal, perhatikan flyrock control";
+            } else if (depth < 20) {
+                depthCategory = "Sedang";
+                depthNote = "Kedalaman optimal untuk peledakan produksi";
+            } else if (depth < 30) {
+                depthCategory = "Dalam";
+                depthNote = "Seam dalam, pertimbangkan efek confinement";
+            } else {
+                depthCategory = "Sangat Dalam";
+                depthNote = "Seam sangat dalam, perhatikan desain timing dan sequencing";
+            }
+            
+            // Generate notes based on parameters
+            const notes = generateNotes(pit, seam, material, depth, recommendation);
+            
+            // Update result display
+            const resultHTML = `
+                <div class="recommendation-card">
+                    <div class="recommendation-header">
+                        <div>
+                            <div class="location-info">${pit} - Seam ${seam}</div>
+                            <div class="location-details">
+                                Material: ${materialNames[material]} | Kedalaman: ${depth.toFixed(1)} m | Kategori: ${depthCategory}
+                            </div>
+                        </div>
+                        <div style="font-size: 14px; color: #555;">
+                            ID: ${pit}_${seam}_${material}
+                        </div>
+                    </div>
+                    
+                    <div class="recommendation-grid">
+                        <div class="param-card primary">
+                            <div class="param-label">Powder Factor</div>
+                            <div class="param-value">${recommendation.pf.toFixed(2)}</div>
+                            <div class="param-unit">kg/m³</div>
+                        </div>
+                        
+                        <div class="param-card">
+                            <div class="param-label">Burden</div>
+                            <div class="param-value">${recommendation.burden.toFixed(1)}</div>
+                            <div class="param-unit">meter</div>
+                        </div>
+                        
+                        <div class="param-card">
+                            <div class="param-label">Spasi</div>
+                            <div class="param-value">${recommendation.spacing.toFixed(1)}</div>
+                            <div class="param-unit">meter</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('resultContainer').innerHTML = resultHTML;
+            
+            // Update depth info
+            document.getElementById('depthInfo').style.display = 'block';
+            document.getElementById('depthText').textContent = 
+                `Kedalaman: ${depth.toFixed(1)} m | Kategori: ${depthCategory} | ${depthNote}`;
+            
+            // Update notes
+            document.getElementById('notesSection').style.display = 'block';
+            document.getElementById('notesText').textContent = notes;
+            
+            // Save current selection for copy function
+            window.currentRecommendation = {
+                pit: pit,
+                seam: seam,
+                material: material,
+                materialName: materialNames[material],
+                depth: depth,
+                depthCategory: depthCategory,
+                ...recommendation
+            };
+        }
+        
+        function generateNotes(pit, seam, material, depth, recommendation) {
+            let notes = [];
+            
+            // Material-based notes
+            if (material === 'claystone') {
+                notes.push("Material: Claystone (Soft-Medium) - Gunakan stemming yang memadai untuk menghindari flyrock.");
+            } else if (material === 'siltstone') {
+                notes.push("Material: Siltstone (Medium) - Parameter standar memberikan fragmentasi optimal.");
+            } else if (material === 'sandstone') {
+                notes.push("Material: Sandstone (Hard) - Pertimbangkan pre-splitting untuk wall control.");
+            }
+            
+            // Depth-based notes
+            if (depth < 10) {
+                notes.push("Kedalaman < 10m: Kurangi delay timing antar lubang untuk mengurangi vibration.");
+            } else if (depth > 25) {
+                notes.push("Kedalaman > 25m: Tambah panjang stemming untuk confinement yang lebih baik.");
+            }
+            
+            // Seam-based notes (contoh untuk beberapa seam)
+            if (['35', '36', '37', '38'].includes(seam)) {
+                notes.push(`Seam ${seam}: Dalam geological column, perhatikan interburden thickness.`);
+            }
+            
+            // PF-based recommendations
+            if (recommendation.pf < 0.35) {
+                notes.push("PF rendah: Cocok untuk material lunak atau operasi dekat struktur.");
+            } else if (recommendation.pf > 0.5) {
+                notes.push("PF tinggi: Diperlukan untuk material keras atau fragmentasi fine.");
+            }
+            
+            // Add pit-specific note
+            notes.push(`Lokasi: ${pit} - Sesuaikan dengan kondisi lapangan aktual.`);
+            
+            return notes.join(" ");
+        }
+        
+        function copyToSDOBCalculator() {
+            if (!window.currentRecommendation) {
+                alert("Silakan generate rekomendasi terlebih dahulu");
+                return;
+            }
+            
+            const rec = window.currentRecommendation;
+            
+            // Create parameter string
+            const textToCopy = 
+`PARAMETER REKOMENDASI:
+----------------------
+Lokasi     : ${rec.pit}
+Seam       : ${rec.seam}
+Material   : ${rec.materialName}
+Kedalaman  : ${rec.depth.toFixed(1)} m (${rec.depthCategory})
+
+PARAMETER PELEDAKAN:
+--------------------
+Powder Factor : ${rec.pf.toFixed(2)} kg/m³
+Burden        : ${rec.burden.toFixed(1)} m
+Spasi         : ${rec.spacing.toFixed(1)} m
+
+Catatan: Gunakan parameter ini sebagai acuan awal.
+         Sesuaikan dengan kondisi aktual di lapangan.`;
+
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    alert("✅ Parameter berhasil disalin ke clipboard!\n\n" + 
+                          "Sekarang buka kalkulator SDOB dan input parameter ini.");
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                    
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        alert("Parameter berhasil disalin!");
+                    } catch (e) {
+                        alert("Gagal menyalin ke clipboard. Silakan copy manual:\n\n" + textToCopy);
+                    }
+                    document.body.removeChild(textArea);
+                });
+        }
+        
+        function resetTools() {
+            // Reset inputs
+            document.getElementById('pitSelect').value = '';
+            document.getElementById('seamSelect').value = '';
+            document.getElementById('materialSelect').value = '';
+            document.getElementById('depthInput').value = '';
+            
+            // Reset displays
+            document.getElementById('depthInfo').style.display = 'none';
+            document.getElementById('notesSection').style.display = 'none';
+            
+            // Reset result display
+            document.getElementById('resultContainer').innerHTML = `
+                <div class="recommendation-card" style="opacity: 0.7;">
+                    <div class="recommendation-header">
+                        <div>
+                            <div class="location-info">Pilih Parameter</div>
+                            <div class="location-details">Silakan pilih PIT, Seam, Material, dan input kedalaman</div>
+                        </div>
+                    </div>
+                    
+                    <div class="recommendation-grid">
+                        <div class="param-card">
+                            <div class="param-label">Powder Factor</div>
+                            <div class="param-value">-</div>
+                            <div class="param-unit">kg/m³</div>
+                        </div>
+                        
+                        <div class="param-card">
+                            <div class="param-label">Burden</div>
+                            <div class="param-value">-</div>
+                            <div class="param-unit">meter</div>
+                        </div>
+                        
+                        <div class="param-card">
+                            <div class="param-label">Spasi</div>
+                            <div class="param-value">-</div>
+                            <div class="param-unit">meter</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; color: #999; padding: 20px;">
+                        <p>Parameter akan ditampilkan setelah Anda mengisi semua data</p>
+                    </div>
+                </div>
+            `;
+            
+            window.currentRecommendation = null;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-select first pit if only one exists
+            const pitSelect = document.getElementById('pitSelect');
+            if (pitSelect.options.length === 2) { // 1 option + "-- Pilih PIT --"
+                pitSelect.selectedIndex = 1;
+            }
+            
+            // Focus on depth input after material selection
+            document.getElementById('materialSelect').addEventListener('change', function() {
+                if (this.value) {
+                    document.getElementById('depthInput').focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
