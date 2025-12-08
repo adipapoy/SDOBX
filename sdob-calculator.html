@@ -584,24 +584,24 @@
                 <span>←</span> Back to Home
             </a>
             
-            <h1>Kalkulator SDOB - Perhitungan Skala Kedalaman Penguburan</h1>
-            <p>Menghitung Scale Depth of Burial berdasarkan parameter peledakan dengan rumus D = T + (0.5 × L)</p>
+            <h1>SDoBX - SDoB QuickCalc</h1>
+            <p>SDoB adalah angka yang menunjukkan apakah kedalaman bahan peledak sudah cukup aman untuk menahan energi ledakan.</p>
         </div>
         
         <div class="content">
             <!-- PANEL INPUT TUNGGAL - GABUNGAN PARAMETER -->
             <div class="single-input-panel">
-                <h2>⚙️ Parameter Peledakan Terintegrasi</h2>
+                <h2>⚙️ Scale Depth of Burial</h2>
                 
                 <div class="input-grid-single">
                     <!-- Dimensi Lubang -->
                     <div class="input-section-single">
-                        <h3>📏 Dimensi Lubang</h3>
+                        <h3>📏 Geometri Lubang</h3>
                         
                         <div class="input-group">
                             <label for="holeDepth">Kedalaman Lubang (H)</label>
                             <div class="input-with-unit">
-                                <input type="number" id="holeDepth" step="0.1" placeholder="Contoh: 15.0" min="1">
+                                <input type="number" id="holeDepth" step="0.1" placeholder="Example : 7.5" min="1">
                                 <div class="unit-display">m</div>
                             </div>
                         </div>
@@ -609,7 +609,7 @@
                         <div class="input-group">
                             <label for="burden">Burden (B)</label>
                             <div class="input-with-unit">
-                                <input type="number" id="burden" step="0.1" placeholder="Contoh: 5.0" min="0.5">
+                                <input type="number" id="burden" step="0.1" placeholder="Example : 8" min="0.5">
                                 <div class="unit-display">m</div>
                             </div>
                         </div>
@@ -617,7 +617,7 @@
                         <div class="input-group">
                             <label for="spacing">Spasi (S)</label>
                             <div class="input-with-unit">
-                                <input type="number" id="spacing" step="0.1" placeholder="Contoh: 5.5" min="0.5">
+                                <input type="number" id="spacing" step="0.1" placeholder="Example : 10" min="0.5">
                                 <div class="unit-display">m</div>
                             </div>
                         </div>
@@ -625,45 +625,34 @@
                     
                     <!-- Parameter Peledakan -->
                     <div class="input-section-single">
-                        <h3>💥 Parameter Peledakan</h3>
+                        <h3>💥 Powder Factor</h3>
                         
                         <div class="input-group">
                             <label for="powderFactor">Powder Factor (PF)</label>
                             <div class="input-with-unit">
-                                <input type="number" id="powderFactor" step="0.01" placeholder="Contoh: 0.45" min="0.01">
+                                <input type="number" id="powderFactor" step="0.01" placeholder="Example : 0.14" min="0.01">
                                 <div class="unit-display">kg/m³</div>
                             </div>
                             <small style="color: #666;">Berat bahan peledak per m³ batuan</small>
                         </div>
-                        
-                        <!-- Informasi Loading Density -->
-                        <div class="loading-density-note">
-                            <strong>Loading Density Tetap:</strong> 25 kg/m
-                            <br>
-                            <small>Asumsi: 1 meter kolom isian = 25 kg bahan peledak</small>
-                        </div>
-                        
-                        <!-- Informasi Diameter -->
+                    
                         <div class="diameter-note">
                             <strong>Diameter Lubang Bor Tetap:</strong> 0.171 m
                             <br>
-                            <small>L = 10 × Diameter = 10 × 0.171 = 1.71 m</small>
+                            <small>ditetapkan dari spesifikasi unit drilling D245s</small>
                         </div>
+                        
                     </div>
                 </div>
                 
                 <!-- Informasi Konstanta -->
                 <div class="constants-info">
-                    <div class="constant-item">
-                        <div class="constant-label">Diameter Lubang Bor</div>
-                        <div class="constant-value">0.171</div>
-                        <div class="constant-unit">meter</div>
-                    </div>
-                    
+                                        
                     <div class="constant-item">
                         <div class="constant-label">Parameter L</div>
                         <div class="constant-value">1.71</div>
-                        <div class="constant-unit">m (10 × Diameter)</div>
+                        <div class="constant-unit">(10 × Diameter Lubang Bor)</div>
+                        <div class="constant-unit">L adalah Length of 10 explosive diameter (m)</div>
                     </div>
                     
                     <div class="constant-item">
@@ -671,22 +660,30 @@
                         <div class="constant-value">25.0</div>
                         <div class="constant-unit">kg/m</div>
                     </div>
-                    
+
                     <div class="constant-item">
-                        <div class="constant-label">Parameter W</div>
-                        <div class="constant-value">42.75</div>
-                        <div class="constant-unit">kg (Loading Density × L)</div>
+                        <div class="constant-label">W = Loading Density x L</div>
+                        <div class="constant-value">42.75 kg</div>
+                        <div class="constant-unit">Berat Bahan Peledak dari 10 kali diameter lubang ledak</div>
                     </div>
+
+                    <div class="constant-item">
+                        <div class="constant-label">Burial Depth (D)</div>
+                        <div class="constant-value">T + (0.5 x L)</div>
+                        <div class="constant-unit">T atau panjang stemming Didapatkan setelah input parameter</div>
+                    </div>
+                    
                 </div>
             </div>
             
             <!-- Rumus SDOB -->
-            <div class="sdob-formula">
-                <strong>RUMUS SDOB:</strong> SDOB = D / (W^(1/3))
-                <br>
-                Dimana: D = T + (0.5 × L) dan W = Loading Density × L
-                <br>
-                T = Panjang Stemming, L = 10 × Diameter Lubang Bor = 1.71 m
+            <div class="sdob-formula" style="text-align: center; margin: 20px 0;">
+             <!-- Gambar Responsive -->
+                <div style="padding: 15px; background: linear-gradient(135deg, #f8f8f8, #b8cbed); border-radius: 10px; margin-bottom: 15px;">
+                  <img src="https://raw.githubusercontent.com/adipapoy/SDOBX/main/rumus-sdob.png" 
+                   alt="Rumus SDOB" 
+                   style="max-width: 100%; height: auto; max-height: 100px;">
+                </div>
             </div>
             
             <div class="buttons">
@@ -871,6 +868,7 @@
     </div>
     
     <script>
+        
         // KONSTANTA
         const LOADING_DENSITY = 25; // kg/m
         const HOLE_DIAMETER = 0.171; // meter
@@ -883,239 +881,257 @@
         }
         
         function calculateFullSDOB() {
-            // Ambil nilai input
-            const holeDepth = parseFloat(document.getElementById('holeDepth').value);
-            const burden = parseFloat(document.getElementById('burden').value);
-            const spacing = parseFloat(document.getElementById('spacing').value);
-            const powderFactor = parseFloat(document.getElementById('powderFactor').value);
-            
-            // Validasi input
-            if (!holeDepth || !burden || !spacing || !powderFactor) {
-                alert("Mohon isi semua parameter (Kedalaman, Burden, Spasi, Powder Factor)");
-                return;
+            try {
+                // Ambil nilai input
+                const holeDepth = parseFloat(document.getElementById('holeDepth').value);
+                const burden = parseFloat(document.getElementById('burden').value);
+                const spacing = parseFloat(document.getElementById('spacing').value);
+                const powderFactor = parseFloat(document.getElementById('powderFactor').value);
+                
+                // Validasi input
+                if (isNaN(holeDepth) || isNaN(burden) || isNaN(spacing) || isNaN(powderFactor)) {
+                    alert("Mohon isi semua parameter (Kedalaman, Burden, Spasi, Powder Factor)");
+                    return;
+                }
+                
+                if (holeDepth <= 0 || burden <= 0 || spacing <= 0 || powderFactor <= 0) {
+                    alert("Semua parameter harus bernilai positif");
+                    return;
+                }
+                
+                // -------------------------------
+                // LANGKAH 1: Hitung Volume per lubang
+                // -------------------------------
+                const rockVolume = burden * spacing * holeDepth;
+                
+                // -------------------------------
+                // LANGKAH 2: Hitung berat bahan peledak
+                // -------------------------------
+                const explosiveWeight = rockVolume * powderFactor;
+                
+                // -------------------------------
+                // LANGKAH 3: Hitung panjang kolom isian
+                // -------------------------------
+                const loadingLength = explosiveWeight / LOADING_DENSITY;
+                
+                // Validasi panjang isian
+                if (loadingLength > holeDepth) {
+                    alert("PERHATIAN: Panjang isian (" + loadingLength.toFixed(2) + " m) melebihi kedalaman lubang (" + holeDepth + " m).\nPeriksa kembali Powder Factor atau kedalaman lubang.");
+                    return;
+                }
+                
+                // -------------------------------
+                // LANGKAH 4: Hitung panjang kolom stemming
+                // -------------------------------
+                const stemmingLength = holeDepth - loadingLength;
+                
+                // -------------------------------
+                // LANGKAH 5: Hitung Parameter D
+                // D = T + (0.5 × L)
+                // -------------------------------
+                const D = stemmingLength + (0.5 * L);
+                
+                // -------------------------------
+                // LANGKAH 6: Hitung SDOB
+                // SDOB = D / (W^(1/3))
+                // W = Loading Density × L = 25 × 1.71 = 42.75 kg
+                // -------------------------------
+                const cubeRoot = Math.pow(W_CONSTANT, 1/3);
+                const sdobValue = D / cubeRoot;
+                
+                // -------------------------------
+                // TAMPILKAN HASIL
+                // -------------------------------
+                // Update hasil numerik
+                document.getElementById('resultVolume').textContent = rockVolume.toFixed(2);
+                document.getElementById('resultExplosiveWeight').textContent = explosiveWeight.toFixed(2);
+                document.getElementById('resultLoadingLength').textContent = loadingLength.toFixed(2);
+                document.getElementById('resultStemmingLength').textContent = stemmingLength.toFixed(2);
+                document.getElementById('resultD').textContent = D.toFixed(3);
+                document.getElementById('resultL').textContent = L.toFixed(2);
+                document.getElementById('resultW').textContent = W_CONSTANT.toFixed(2);
+                document.getElementById('resultSDOB').textContent = sdobValue.toFixed(3);
+                
+                // Update visualisasi simulasi
+                updateHoleVisualization(holeDepth, loadingLength, stemmingLength);
+                
+                // Update detail simulasi
+                document.getElementById('visTotalDepth').textContent = holeDepth.toFixed(1);
+                document.getElementById('visLoadingLength').textContent = loadingLength.toFixed(2);
+                document.getElementById('visStemmingLength').textContent = stemmingLength.toFixed(2);
+                document.getElementById('visLoadingPercent').textContent = ((loadingLength / holeDepth) * 100).toFixed(1);
+                
+                // Update interpretasi dengan skala baru
+                updateInterpretationNew(sdobValue);
+                
+                // Warna SDOB berdasarkan nilai baru
+                colorizeSDOBNew(sdobValue);
+                
+                // Scroll ke visualisasi
+                document.querySelector('.simulation-section').scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error("Error dalam perhitungan:", error);
+                alert("Terjadi kesalahan dalam perhitungan. Periksa konsol untuk detail.");
             }
-            
-            if (holeDepth <= 0 || burden <= 0 || spacing <= 0 || powderFactor <= 0) {
-                alert("Semua parameter harus bernilai positif");
-                return;
-            }
-            
-            // -------------------------------
-            // LANGKAH 1: Hitung Volume per lubang
-            // -------------------------------
-            const rockVolume = burden * spacing * holeDepth;
-            
-            // -------------------------------
-            // LANGKAH 2: Hitung berat bahan peledak
-            // -------------------------------
-            const explosiveWeight = rockVolume * powderFactor;
-            
-            // -------------------------------
-            // LANGKAH 3: Hitung panjang kolom isian
-            // -------------------------------
-            const loadingLength = explosiveWeight / LOADING_DENSITY;
-            
-            // Validasi panjang isian
-            if (loadingLength > holeDepth) {
-                alert("PERHATIAN: Panjang isian (" + loadingLength.toFixed(2) + " m) melebihi kedalaman lubang (" + holeDepth + " m).\nPeriksa kembali Powder Factor atau kedalaman lubang.");
-                return;
-            }
-            
-            // -------------------------------
-            // LANGKAH 4: Hitung panjang kolom stemming
-            // -------------------------------
-            const stemmingLength = holeDepth - loadingLength;
-            
-            // -------------------------------
-            // LANGKAH 5: Hitung Parameter D
-            // D = T + (0.5 × L)
-            // -------------------------------
-            const D = stemmingLength + (0.5 * L);
-            
-            // -------------------------------
-            // LANGKAH 6: Hitung SDOB
-            // SDOB = D / (W^(1/3))
-            // W = Loading Density × L = 25 × 1.71 = 42.75 kg
-            // -------------------------------
-            const cubeRoot = Math.pow(W_CONSTANT, 1/3);
-            const sdobValue = D / cubeRoot;
-            
-            // -------------------------------
-            // TAMPILKAN HASIL
-            // -------------------------------
-            // Update hasil numerik
-            document.getElementById('resultVolume').textContent = rockVolume.toFixed(2);
-            document.getElementById('resultExplosiveWeight').textContent = explosiveWeight.toFixed(2);
-            document.getElementById('resultLoadingLength').textContent = loadingLength.toFixed(2);
-            document.getElementById('resultStemmingLength').textContent = stemmingLength.toFixed(2);
-            document.getElementById('resultD').textContent = D.toFixed(3);
-            document.getElementById('resultL').textContent = L.toFixed(2);
-            document.getElementById('resultW').textContent = W_CONSTANT.toFixed(2);
-            document.getElementById('resultSDOB').textContent = sdobValue.toFixed(3);
-            
-            // Update visualisasi simulasi
-            updateHoleVisualization(holeDepth, loadingLength, stemmingLength);
-            
-            // Update detail simulasi
-            document.getElementById('visTotalDepth').textContent = holeDepth.toFixed(1);
-            document.getElementById('visLoadingLength').textContent = loadingLength.toFixed(2);
-            document.getElementById('visStemmingLength').textContent = stemmingLength.toFixed(2);
-            document.getElementById('visLoadingPercent').textContent = ((loadingLength / holeDepth) * 100).toFixed(1);
-            
-            // Update interpretasi dengan skala baru
-            updateInterpretationNew(sdobValue);
-            
-            // Warna SDOB berdasarkan nilai baru
-            colorizeSDOBNew(sdobValue);
-            
-            // Scroll ke visualisasi
-            document.querySelector('.simulation-section').scrollIntoView({ behavior: 'smooth' });
         }
         
         function updateHoleVisualization(totalDepth, loadingLength, stemmingLength) {
-            const visualization = document.getElementById('holeVisualization');
-            visualization.innerHTML = '';
-            
-            const totalHeight = 350; // px
-            const loadingHeight = (loadingLength / totalDepth) * totalHeight;
-            const stemmingHeight = (stemmingLength / totalDepth) * totalHeight;
-            
-            // Bagian Loading (bawah - bahan peledak)
-            const loadingEl = document.createElement('div');
-            loadingEl.className = 'hole-segment loading';
-            loadingEl.style.height = loadingHeight + 'px';
-            loadingEl.style.bottom = '0';
-            loadingEl.innerHTML = `
-                <div style="font-size: 14px; margin-bottom: 3px;">💥</div>
-                <div style="font-size: 11px;">${loadingLength.toFixed(1)} m</div>
-                <div style="font-size: 9px; margin-top: 2px;">Isian</div>
-            `;
-            visualization.appendChild(loadingEl);
-            
-            // Bagian Stemming (atas)
-            const stemmingEl = document.createElement('div');
-            stemmingEl.className = 'hole-segment stemming';
-            stemmingEl.style.height = stemmingHeight + 'px';
-            stemmingEl.style.bottom = loadingHeight + 'px';
-            stemmingEl.innerHTML = `
-                <div style="font-size: 14px; margin-bottom: 3px;">🪨</div>
-                <div style="font-size: 11px;">${stemmingLength.toFixed(1)} m</div>
-                <div style="font-size: 9px; margin-top: 2px;">Stemming</div>
-            `;
-            visualization.appendChild(stemmingEl);
-            
-            // Garis permukaan
-            const surfaceLine = document.createElement('div');
-            surfaceLine.style.position = 'absolute';
-            surfaceLine.style.top = '0';
-            surfaceLine.style.left = '0';
-            surfaceLine.style.right = '0';
-            surfaceLine.style.height = '1px';
-            surfaceLine.style.background = '#333';
-            surfaceLine.style.borderTop = '1px dashed #666';
-            visualization.appendChild(surfaceLine);
+            try {
+                const visualization = document.getElementById('holeVisualization');
+                visualization.innerHTML = '';
+                
+                const totalHeight = 350; // px
+                const loadingHeight = (loadingLength / totalDepth) * totalHeight;
+                const stemmingHeight = (stemmingLength / totalDepth) * totalHeight;
+                
+                // Bagian Loading (bawah - bahan peledak)
+                if (loadingHeight > 0) {
+                    const loadingEl = document.createElement('div');
+                    loadingEl.className = 'hole-segment loading';
+                    loadingEl.style.height = loadingHeight + 'px';
+                    loadingEl.style.bottom = '0';
+                    loadingEl.innerHTML = `
+                        <div style="font-size: 14px; margin-bottom: 3px;">💥</div>
+                        <div style="font-size: 11px;">${loadingLength.toFixed(1)} m</div>
+                        <div style="font-size: 9px; margin-top: 2px;">Isian</div>
+                    `;
+                    visualization.appendChild(loadingEl);
+                }
+                
+                // Bagian Stemming (atas)
+                if (stemmingHeight > 0) {
+                    const stemmingEl = document.createElement('div');
+                    stemmingEl.className = 'hole-segment stemming';
+                    stemmingEl.style.height = stemmingHeight + 'px';
+                    stemmingEl.style.bottom = loadingHeight + 'px';
+                    stemmingEl.innerHTML = `
+                        <div style="font-size: 14px; margin-bottom: 3px;">🪨</div>
+                        <div style="font-size: 11px;">${stemmingLength.toFixed(1)} m</div>
+                        <div style="font-size: 9px; margin-top: 2px;">Stemming</div>
+                    `;
+                    visualization.appendChild(stemmingEl);
+                }
+                
+                // Garis permukaan
+                const surfaceLine = document.createElement('div');
+                surfaceLine.style.position = 'absolute';
+                surfaceLine.style.top = '0';
+                surfaceLine.style.left = '0';
+                surfaceLine.style.right = '0';
+                surfaceLine.style.height = '1px';
+                surfaceLine.style.background = '#333';
+                surfaceLine.style.borderTop = '1px dashed #666';
+                visualization.appendChild(surfaceLine);
+                
+            } catch (error) {
+                console.error("Error dalam visualisasi:", error);
+            }
         }
         
         function updateInterpretationNew(sdobValue) {
-            const interpretationEl = document.getElementById('interpretationText');
-            let interpretation = '';
-            let recommendation = '';
-            let color = '';
-            
-            if (sdobValue <= 0.88) {
-                interpretation = "UNCONTROLLED ENERGY";
-                recommendation = "Energi ledakan tidak terkontrol dengan baik. Risiko flyrock dan ground vibration tinggi. Perlu redesign parameter peledakan.";
-                color = "#ff4d4f";
-            } else if (sdobValue <= 1.42) {
-                interpretation = "CONTROLLED ENERGY";
-                recommendation = "Energi ledakan terkontrol dengan baik. Fragmentasi batuan optimal dengan risiko yang dapat dikelola.";
-                color = "#ffec3d";
-            } else if (sdobValue <= 1.82) {
-                interpretation = "VERY CONTROLLED ENERGY";
-                recommendation = "Energi ledakan sangat terkontrol. Fragmentasi excellent dengan minimal flyrock dan vibration.";
-                color = "#73d13d";
-            } else if (sdobValue <= 2.42) {
-                interpretation = "MINIMAL SURFACE ACTIVITY";
-                recommendation = "Aktivitas permukaan minimal. Sangat aman untuk operasi dekat struktur sensitif.";
-                color = "#1890ff";
-            } else {
-                interpretation = "INSIGNIFICANT SURFACE EFFECT";
-                recommendation = "Efek permukaan tidak signifikan. Proteksi maksimal terhadap struktur di permukaan.";
-                color = "#1a365d";
+            try {
+                const interpretationEl = document.getElementById('interpretationText');
+                let interpretation = '';
+                let recommendation = '';
+                let color = '';
+                
+                if (sdobValue <= 0.88) {
+                    interpretation = "UNCONTROLLED ENERGY";
+                    recommendation = "Energi ledakan tidak terkontrol dengan baik. Risiko flyrock dan ground vibration tinggi. Perlu redesign parameter peledakan.";
+                    color = "#ff4d4f";
+                } else if (sdobValue <= 1.42) {
+                    interpretation = "CONTROLLED ENERGY";
+                    recommendation = "Energi ledakan terkontrol dengan baik. Fragmentasi batuan optimal dengan risiko yang dapat dikelola.";
+                    color = "#ffec3d";
+                } else if (sdobValue <= 1.82) {
+                    interpretation = "VERY CONTROLLED ENERGY";
+                    recommendation = "Energi ledakan sangat terkontrol. Fragmentasi excellent dengan minimal flyrock dan vibration.";
+                    color = "#73d13d";
+                } else if (sdobValue <= 2.42) {
+                    interpretation = "MINIMAL SURFACE ACTIVITY";
+                    recommendation = "Aktivitas permukaan minimal. Sangat aman untuk operasi dekat struktur sensitif.";
+                    color = "#1890ff";
+                } else {
+                    interpretation = "INSIGNIFICANT SURFACE EFFECT";
+                    recommendation = "Efek permukaan tidak signifikan. Proteksi maksimal terhadap struktur di permukaan.";
+                    color = "#1a365d";
+                }
+                
+                interpretationEl.innerHTML = `
+                    <div style="background: ${color}20; padding: 15px; border-radius: 8px; border-left: 4px solid ${color};">
+                        <h4 style="color: ${color}; margin: 0 0 10px 0;">${interpretation} (SDOB = ${sdobValue.toFixed(3)})</h4>
+                        <p style="margin: 0 0 10px 0; color: #262626;">${recommendation}</p>
+                        <p style="margin: 0; font-size: 14px; color: #595959;">
+                            <strong>Rekomendasi:</strong> 
+                            ${sdobValue <= 1.42 ? 
+                                'Tingkatkan kedalaman lubang atau kurangi powder factor untuk meningkatkan SDOB.' : 
+                                'Parameter sudah optimal. Pertahankan desain peledakan ini.'}
+                        </p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error("Error dalam interpretasi:", error);
             }
-            
-            interpretationEl.innerHTML = `
-                <div style="background: ${color}20; padding: 15px; border-radius: 8px; border-left: 4px solid ${color};">
-                    <h4 style="color: ${color}; margin: 0 0 10px 0;">${interpretation} (SDOB = ${sdobValue.toFixed(3)})</h4>
-                    <p style="margin: 0 0 10px 0; color: #262626;">${recommendation}</p>
-                    <p style="margin: 0; font-size: 14px; color: #595959;">
-                        <strong>Rekomendasi:</strong> 
-                        ${sdobValue <= 1.42 ? 
-                            'Tingkatkan kedalaman lubang atau kurangi powder factor untuk meningkatkan SDOB.' : 
-                            'Parameter sudah optimal. Pertahankan desain peledakan ini.'}
-                    </p>
-                </div>
-            `;
         }
         
         function colorizeSDOBNew(sdobValue) {
-            const sdobElement = document.getElementById('resultSDOB');
-            let color;
-            
-            if (sdobValue <= 0.88) color = "#ff4d4f";
-            else if (sdobValue <= 1.42) color = "#ffec3d";
-            else if (sdobValue <= 1.82) color = "#73d13d";
-            else if (sdobValue <= 2.42) color = "#1890ff";
-            else color = "#1a365d";
-            
-            sdobElement.style.color = color;
+            try {
+                const sdobElement = document.getElementById('resultSDOB');
+                let color;
+                
+                if (sdobValue <= 0.88) color = "#ff4d4f";
+                else if (sdobValue <= 1.42) color = "#ffec3d";
+                else if (sdobValue <= 1.82) color = "#73d13d";
+                else if (sdobValue <= 2.42) color = "#1890ff";
+                else color = "#1a365d";
+                
+                sdobElement.style.color = color;
+            } catch (error) {
+                console.error("Error dalam colorize:", error);
+            }
         }
         
         function resetCalculator() {
-            // Reset input
-            document.getElementById('holeDepth').value = '';
-            document.getElementById('burden').value = '';
-            document.getElementById('spacing').value = '';
-            document.getElementById('powderFactor').value = '';
-            
-            // Reset hasil
-            document.getElementById('resultVolume').textContent = '-';
-            document.getElementById('resultExplosiveWeight').textContent = '-';
-            document.getElementById('resultLoadingLength').textContent = '-';
-            document.getElementById('resultStemmingLength').textContent = '-';
-            document.getElementById('resultD').textContent = '-';
-            document.getElementById('resultSDOB').textContent = '-';
-            document.getElementById('resultSDOB').style.color = '#1890ff';
-            
-            // Reset konstanta
-            document.getElementById('resultL').textContent = L.toFixed(2);
-            document.getElementById('resultW').textContent = W_CONSTANT.toFixed(2);
-            
-            // Reset visualisasi
-            document.getElementById('holeVisualization').innerHTML = '';
-            document.getElementById('visTotalDepth').textContent = '-';
-            document.getElementById('visLoadingLength').textContent = '-';
-            document.getElementById('visStemmingLength').textContent = '-';
-            document.getElementById('visLoadingPercent').textContent = '-';
-            
-            // Reset interpretasi
-            document.getElementById('interpretationText').innerHTML = 
-                '<p>Masukkan parameter untuk melihat interpretasi nilai SDOB...</p>';
+            try {
+                // Reset input
+                document.getElementById('holeDepth').value = '';
+                document.getElementById('burden').value = '';
+                document.getElementById('spacing').value = '';
+                document.getElementById('powderFactor').value = '';
+                
+                // Reset hasil
+                document.getElementById('resultVolume').textContent = '-';
+                document.getElementById('resultExplosiveWeight').textContent = '-';
+                document.getElementById('resultLoadingLength').textContent = '-';
+                document.getElementById('resultStemmingLength').textContent = '-';
+                document.getElementById('resultD').textContent = '-';
+                document.getElementById('resultSDOB').textContent = '-';
+                document.getElementById('resultSDOB').style.color = '#1890ff';
+                
+                // Reset konstanta
+                document.getElementById('resultL').textContent = L.toFixed(2);
+                document.getElementById('resultW').textContent = W_CONSTANT.toFixed(2);
+                
+                // Reset visualisasi
+                document.getElementById('holeVisualization').innerHTML = '';
+                document.getElementById('visTotalDepth').textContent = '-';
+                document.getElementById('visLoadingLength').textContent = '-';
+                document.getElementById('visStemmingLength').textContent = '-';
+                document.getElementById('visLoadingPercent').textContent = '-';
+                
+                // Reset interpretasi
+                document.getElementById('interpretationText').innerHTML = 
+                    '<p>Masukkan parameter untuk melihat interpretasi nilai SDOB...</p>';
+                    
+            } catch (error) {
+                console.error("Error dalam reset:", error);
+            }
         }
         
-        // Jalankan kalkulasi otomatis dengan nilai default saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set nilai default
-            document.getElementById('holeDepth').value = ;
-            document.getElementById('burden').value = ;
-            document.getElementById('spacing').value = ;
-            document.getElementById('powderFactor').value = ;
-            
-            // Jalankan kalkulasi
-            setTimeout(() => {
-                calculateFullSDOB();
-            }, 500);
-        });
+        // INI SAJA YANG TINGGAL - tidak ada DOMContentLoaded untuk set nilai default
+        // Hapus semua kode di bawah ini yang mencoba set nilai default otomatis
+        
     </script>
 </body>
 </html>
