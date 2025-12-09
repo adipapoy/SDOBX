@@ -21,10 +21,10 @@ const recommendationDB = {
     "PIT_TEMPUDO_3_28_sandstone": { pf: 0.11, burden: 9.0, spacing: 10.0 },
 
     "PIT_TEMPUDO_3_29_claystone": { pf: 0.13, burden: 9.0, spacing: 10.0 },
-    "PIT_TEMPUDO_3_29_claystone": { pf: 0.105, burden: 9.0, spacing: 10.0 },
+    "PIT_TEMPUDO_3_29_sandstone": { pf: 0.105, burden: 9.0, spacing: 10.0 },
 
     "PIT_TEMPUDO_3_30_claystone": { pf: 0.13, burden: 9.0, spacing: 10.0 },
-    "PIT_TEMPUDO_3_30_claystone": { pf: 0.11, burden: 9.0, spacing: 10.0 },
+    "PIT_TEMPUDO_3_30_sandstone": { pf: 0.11, burden: 9.0, spacing: 10.0 },
     
     // PIT TEMPUDO 4 SWAP - Data lengkap
     "PIT_TEMPUDO_4_SWAP_27_claystone": { pf: 0.13, burden: 9.0, spacing: 10.0 },
